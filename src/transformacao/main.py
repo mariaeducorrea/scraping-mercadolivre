@@ -11,7 +11,7 @@ df = pd.read_json('../data/data.jsonl', lines=True)
 pd.options.display.max_columns = None
 
 #adicionar coluna_source com um valor fixo
-df['_source'] = "https://lista.mercadolivre.com.br/tenis-corrida-masculino"       #sEMPRE CRIAR ESSA
+df['_source'] = "https://lista.mercadolivre.com.br/tenis-corrida-masculino"    
 
 #adicionar a coluna_data_coleta com a data e hora atuais
 df['_data_coleta'] = datetime.now()
@@ -37,9 +37,6 @@ df.drop(columns=['old_price_reais', 'old_price_centavos', 'new_price_reais', 'ne
 # Conectar ao banco de dados SQLite (ou criar um novo)
 conn = sqlite3.connect('../data/quotes.db')
 
-
-df['name'] = df['name'].astype(str)
-
 # Salvar o DataFrame no banco de dados SQLite
 df.to_sql('mercadolivre_items', conn, if_exists='replace', index=False)
 
@@ -48,37 +45,5 @@ conn.close()
 
 print(df.head())
 
-# Configurar pandas para mostrar todas as colunas
-
-# Exibir o DataFrame resultante
 
 
-
-
-"""
-
-
-# Remover as colunas antigas de preços
-df.drop(columns=['old_price_reais', 'old_price_centavos', 'new_price_reais', 'new_price_centavos'], inplace=True)
-
-# Conectar ao banco de dados PostgreSQL
-conn = psycopg2.connect(
-    dbname='your_database_name',  # Substitua pelo nome do seu banco de dados
-    user='your_username',          # Substitua pelo seu usuário do PostgreSQL
-    password='your_password',      # Substitua pela sua senha do PostgreSQL
-    host='localhost',              # Ou o IP do seu servidor PostgreSQL
-    port='5432'                    # A porta padrão do PostgreSQL
-)
-
-# Salvar o DataFrame no banco de dados PostgreSQL
-df.to_sql('mercadolivre_items', conn, if_exists='replace', index=False)
-
-# Fechar a conexão com o banco de dados
-conn.close()
-
-# Exibir o DataFrame resultante
-print(df.head())
-
-
-
-"""
